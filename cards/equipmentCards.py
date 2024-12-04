@@ -4,9 +4,11 @@ class equipmentCards():
         self.damage = 0 # 这个就是伤害啦 装备一般没伤害，就不管了
         self.effect = None # 用于表明卡牌有什么特殊效果，比如兵粮寸断，就要在玩家开局的时候进行一次判定， 这个里面请装进去判定条件
         self.dictionary = { # 有多少个卡就写做少个，按 description，damage， effect来分配
-            "kill": ["cause damage to a player", 1, None],
-            "heal": ["recover 1 health to a player", 0, None],
-            "defend": ["reduce 1 damage to player self", 0, None]
+            "kill": ["cause damage to a player", 0, None],
+            # TODO:武器功能补充
+            # e.g. 无视距离/伤害加倍/...
+            "Chitu": ["Horse: increase 1 distance between the equipped player and others", 0, None],
+            "Dilu": ["Horse: reduce 1 distance between the equipped player and others", 0, None]
         }
 
     def initialization(self, card_type):
