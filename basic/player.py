@@ -1,5 +1,6 @@
 class player:
-    def __init__(self):
+    def __init__(self, name):
+        self.name = name
         self.card = list()
         self.health = int()
         self.equipment = {"weapon": None,
@@ -11,12 +12,11 @@ class player:
         """
         获取卡的方法，用这个方法把抽卡获得的卡放到self.card里面。
         参数cards直接用list表明获得了什么卡
-            需要建立一个牌堆，并设置出卡的机制（random）
-            第一回合双方各摸四张手牌，随后每回合各摸两张
         :param cards:
         :return:
         """
-        pass
+        # TODO: 牌堆如何建立
+        self.card.extend(cards)
 
     def use_card(self, card, target):
         """
@@ -27,11 +27,12 @@ class player:
         """
         if card.description == "cause damage to a player": # 使用kill
             if self.kill_used_this_turn:
-                if distance_condition: #TODO: 使用杀时，考虑双方之间距离（weapon距离大于horse距离）
+                if distance_condition: #TODO: 距离条件（weapon距离大于horse距离）
                     if "defend" not in target.card: #受到伤害的玩家手牌中没有defend
                         target.health_change(-1)
                     else: #受到伤害的玩家手牌中有defend，则不扣除生命，移除一张defend
                         target.card.remove("defend")
+            self.kill_used_this_turn = True
         elif card.description == "recover 1 health to a player": # 使用heal
             target.health_change(1)
         else:
@@ -47,13 +48,12 @@ class player:
         self.health += number
         return number
 
-    def drop_card(self, cards: list):
+    def drop_card(self, cards_drop_num):
         """
         跟获取卡牌一样，用这个方法来弃牌。
         :param cards:
         :return:
         """
-        if len(self.card) > self.health:
-            cards_to_drop = len(self.card) - self.health #按照现有生命值确定弃牌数
+
         # TODO: 弃牌机制
         pass

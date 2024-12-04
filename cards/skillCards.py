@@ -3,14 +3,13 @@ class skillCards():
         self.description = None  # 这个就是描述
         self.damage = 0  # 这个就是伤害啦
         self.effect = None  # 用于表明卡牌有什么特殊效果，比如兵粮寸断，就要在玩家开局的时候进行一次判定， 这个里面请装进去判定条件
-        # TODO：判定时需要提供每一张卡牌的花色/数字，这个实现起来复杂吗？（会影响牌堆生成和存储）或者可以直接用掷骰子判定（1-6中random，再判断奇偶等等。。。）
-        self.dictionary = {  # 有多少个卡就写做少个，按 description，damage，effect来分配
+        self.dictionary = {  # 有多少个卡就写多少个，按 description，damage，effect来分配
             "kill": ["cause damage to a player", 1, None],
             "heal": ["recover 1 health to a player", 0, None],
             "defend": ["reduce 1 damage to player self", 0, None]
         }
 
-        # TODO：找了原游戏中锦囊牌，可以看一下用哪几个
+        # TODO：找了原游戏中锦囊牌，可以看一下用哪几个。。。
         # 乐不思蜀：对任意玩家使用。目标角色在其下一回合开始阶段进行判定，若不是红桃花色则跳过出牌阶段
         # 闪电：对自己使用。在下个判定阶段时开始结算，目标角色进行一次判定，若为黑桃2~9则造成三点伤害，否则移入下家判定区
         # 决斗：对除自己外玩家使用。由目标角色先开始，自己和对方打出一张杀。决斗对首先不出杀的一方造成1点伤害
