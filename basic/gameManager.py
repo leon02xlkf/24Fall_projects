@@ -40,7 +40,12 @@ class gameManager():
                           3, "surgeryAttack"],
         "doubleAttack": ["weapon",
                          "if a player has no cards, cause double damage on the player",
-                         3, "doubleAttack"]
+                         3, "doubleAttack"],
+
+        # Horses
+        "defendHorse": ["horse1", "increase the distance between players by 1", 1, "defendHorse"],
+        "attackHorse": ["horse-1", "reduce the distance between players by 1", -1, "attackHorse"]
+
     }
     card_type = ["kill", "defend", "heal", "AK47", "APAmmunition", "alchemy", "extraAmmunition", "fireSupport",
                  "surgeryAttack", "doubleAttack"]
@@ -87,7 +92,7 @@ class gameManager():
     def use_card(self, source, target, card_type):
         """
         基础的使用卡牌的方法，所有对于用卡的修改都应该在这里
-        TODO: 只有这个方法可以用卡牌，其他的方法请死都不要动卡牌，不然要出问题了
+        只有这个方法可以用卡牌，其他的方法请死都不要动卡牌，不然要出问题了
         The basic function for using a card
         please modify only in this function when there is something to do with use a card
         :param source: who is using the card, 用卡的人
@@ -96,21 +101,28 @@ class gameManager():
         :return: the number if there is something to do with damage
         """
         # 计算距离
-        # original_distance = self.calculate_distance(source, target)
+        original_distance = self.calculate_distance(source, target)
 
         source = self.playerList.get(source)
         target = self.playerList.get(target)
+
+        horse_distance = source.equipment["horse1"][2] + source.equipment["horse-1"][2] + target.equipment["horse1"][2] + target.equipment["horse-1"][2]
+        distance_permission = (source.equipment["weapon"][2] >= original_distance + horse_distance)
+
         if card_type == "kill":
 
             # AK47
             if source.kill_limitation and source.kill == 1:
                 print("not valid kill")
                 return None
+            if not distance_permission:
+                print("not valid kill")
+                return None
             source.kill += 1
 
             # doubleAttack
             if source.doubleAttack and len(target.cards) == 0:
-                pass
+                self.card_dictionary["kill"][2] = 2
 
         elif self.card_dictionary.get(card_type)[0] == "weapon":
             self.playerList.get(target).equipment["weapon"] = card_type
@@ -126,6 +138,7 @@ class gameManager():
 
         number = self.card_dictionary.get(card_type)[2]
         function = self.card_dictionary.get(card_type)[3]
+        
         if self.check_defend(target) and card_type == "kill":
             number += self.use_card(target, target, "defend")
 
@@ -152,8 +165,6 @@ class gameManager():
         return self.drop_card(target, card_type)
 
     def calculate_distance(self, source, target):
-        source = self.playerList.get(source)
-        target = self.playerList.get(target)
         right_distance = abs(int(source) - int(target))
         left_distance = 1 + len(self.playerList) - max(int(source), int(target))
         distance = min(right_distance, left_distance)
@@ -195,6 +206,7 @@ class gameManager():
         pass
 
     def fireSupport(self, target:player, number):
+        target.fireSupport = True
         pass
 
     def surgeryAttack(self, target:player, number):

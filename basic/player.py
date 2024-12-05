@@ -12,8 +12,8 @@ class player():
         self.kill_limitation = True
         self.kill = 0
 
+        self.fireSupport = False
         self.doubleAttack = False
-
 
 
 # class player:
