@@ -42,6 +42,7 @@ class gameManager():
     }
     card_type = ["kill", "defend", "heal", "AK47", "APAmmunition", "alchemy", "extraAmmunition", "fireSupport",
                  "surgeryAttack", "doubleAttack"]
+    weight = [30, 24, 12, 2, 1, 1, 1, 1, 1, 1]
 
     def __init__(self):
         pp1 = pp()
@@ -58,8 +59,8 @@ class gameManager():
         :return:
         """
         for i in range(0, number):
-            card_type = random.choice(list(self.card_dictionary.keys()))
-            self.get_card(target, card_type)
+            card_type = random.choices(list(self.card_dictionary.keys()), weights=self.weight)
+            self.get_card(target, card_type[0])
 
     def get_card_bylist(self,target, card_list):
         """
@@ -93,7 +94,7 @@ class gameManager():
         :param source: who is using the card, 用卡的人
         :param target: who is the card's target, 被用卡的人
         :param card_type: card_type, 卡片类型
-        :return: the number if there is something to do with damange
+        :return: the number if there is something to do with damage
         """
         source = self.playerList.get(source)
         source.cards.remove(card_type)
@@ -158,8 +159,8 @@ class gameManager():
         pass
 
 gm = gameManager()
-gm.get_card_bylist("1", ["kill", "kill", "defend", "defend"])
-gm.get_card_bylist("2", ["kill", "kill", "defend", "defend"])
+gm.get_card_bynumber("1", 4)
+gm.get_card_bynumber("2", 4)
 
 print(gm.playerList.get("1").health, gm.playerList.get("1").cards)
 print(gm.playerList.get("2").health, gm.playerList.get("2").cards)
