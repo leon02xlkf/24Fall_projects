@@ -8,7 +8,7 @@ from player import player
 所有的卡牌使用都需要通过use_card()这个方法，所以请务必保证除了这个方法之外其他的方法死都不会使用卡牌。
 """
 class gameManager():
-    # TODO：找了原游戏中锦囊牌，可以看一下用哪几个。。。
+    # 原游戏中锦囊牌
     # 乐不思蜀：对任意玩家使用。目标角色在其下一回合开始阶段进行判定，若不是红桃花色则跳过出牌阶段
     # 闪电：对自己使用。在下个判定阶段时开始结算，目标角色进行一次判定，若为黑桃2~9则造成三点伤害，否则移入下家判定区
     # 决斗：对除自己外玩家使用。由目标角色先开始，自己和对方打出一张杀。决斗对首先不出杀的一方造成1点伤害
@@ -42,7 +42,7 @@ class gameManager():
                          "if a player has no cards, cause double damage on the player",
                          3, "doubleAttack"],
 
-        # Horses （defend是+1马，attack是-1马）
+        # Horses (defend是+1马, attack是-1马)
         "defendHorse": ["horse1", "increase the distance between players by 1", 1, "defendHorse"],
         "attackHorse": ["horse-1", "reduce the distance between players by 1", -1, "attackHorse"]
 
@@ -107,14 +107,14 @@ class gameManager():
         target = self.playerList.get(target)
 
         # 已装备weapon的距离
-        weapon_equipped = source.equipment["weapon"]
+        # weapon_equipped = source.equipment["weapon"]
 
-        # 已装备horse的距离之和怎么导出，，，
-        horse1_equipped = source.equipment["horse1"]
-        horse2_equipped = source.equipment["horse-1"]
-        horse_distance = self.card_dictionary[]
-
-        distance_permission = (self.card_dictionary[weapon_equipped][2] >= original_distance + horse_distance)
+        # 已装备horse的距离之和怎么计算
+        # horse1_equipped = source.equipment["horse1"]
+        # horse2_equipped = source.equipment["horse-1"]
+        # horse_distance = self.card_dictionary[]
+        # 比较：武器距离 vs 原始距离 + horse距离和
+        # distance_permission = (self.card_dictionary[weapon_equipped][2] >= original_distance + horse_distance)
 
         if card_type == "kill":
 
