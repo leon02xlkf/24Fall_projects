@@ -133,7 +133,7 @@ class gameManager():
         return method(target, number)
 
     def check_defend(self, target):
-        cards = self.playerList.get(target).cards
+        cards = target.cards
         defend = 0
         for card in cards:
             if card == "defend":

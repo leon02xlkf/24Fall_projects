@@ -35,9 +35,10 @@ class game:
                 usage = input("card order:")
                 aim = input("target:")
 
-                print(self.playerList[index], aim, usage)
                 if usage == "q":
                     break
+                print(self.playerList[index], aim, target.cards[int(usage)])
+                print(self.gameManager.playerList.get(self.playerList[index]))
                 self.gameManager.use_card(self.playerList[index], aim, target.cards[int(usage)])
 
             for player in self.playerList:
