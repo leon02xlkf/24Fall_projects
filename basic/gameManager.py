@@ -37,7 +37,7 @@ class gameManager():
                           "you cause damage to a player, you can destrey a horse for the player",
                           3, "surgeryAttack"],
         "doubleAttack": ["equipment",
-                         "if a player has no cards, cause double damange on the player",
+                         "if a player has no cards, cause double damage on the player",
                          3, "doubleAttack"]
     }
     card_type = ["kill", "defend", "heal", "AK47", "APAmmunition", "alchemy", "extraAmmunition", "fireSupport",
