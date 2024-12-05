@@ -15,7 +15,6 @@ class player:
         :param cards:
         :return:
         """
-        # TODO: 牌堆如何建立
         self.card.extend(cards)
 
     def use_card(self, card, target):

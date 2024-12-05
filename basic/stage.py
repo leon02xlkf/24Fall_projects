@@ -1,11 +1,13 @@
-import cards.basicCards, cards.skillCards, cards.equipmentCards
-import player
+import cards.basicCards as basicCards
+import cards.skillCards as skillCards
+import cards.equipmentCards as equipmentCards
+from player import player
 
 class game:
     def __init__(self):
         self.players = list()  # 用于存储有哪些玩家
         self.round = 1 # 用于存储已经进行的回合数
-        self.live_player_indexes = list() # 用于存储存活玩家的编号，游戏开始时按照玩家数量生成，每有人死亡时从中删除对应数字，列表长度为1时返回元素（即为游戏胜者）
+        self.live_player_indices = list() # 用于存储存活玩家的编号，游戏开始时按照玩家数量生成，每有人死亡时从中删除对应数字，列表长度为1时返回元素（即为游戏胜者）
 
     def start(self, player_number):
         """
@@ -14,15 +16,15 @@ class game:
         :return: index of the winner:
         """
         self.generate_player(player_number)
-        self.live_player_indexes = [x+1 for x in range(player_number)]
+        self.live_player_indices = [x+1 for x in range(player_number)]
         while True:
-            if len(self.live_player_indexes) == 1: # 剩余一名玩家，游戏结束
+            if len(self.live_player_indices) == 1: # 剩余一名玩家，游戏结束
                 break
             else:
                 for player in self.players: # 每名玩家轮流执行player_turn进行游戏
                     self.player_turn(player)
                 self.round += 1
-        return self.live_player_indexes[0]
+        return self.live_player_indices[0]
 
     def generate_player(self, player_number):
         """
@@ -31,7 +33,7 @@ class game:
         :return:
         """
         for i in range(player_number):
-            player_generated = player.player(name=f"player_{i}")
+            player_generated = player(name=f"player_{i}")
             self.players.append(player_generated)
         pass
 
@@ -39,6 +41,7 @@ class game:
         """
         在这里让player到他的回合
         回合需要干4件事
+        0 如生命值归零，从玩家列表中移除
         1 如有锦囊牌，进行一次判定。
         2 抽卡
         3 用卡
@@ -46,6 +49,12 @@ class game:
         :param player:
         :return:
         """
+        if player.health == 0:
+            self.players.remove(player)
+            self.live_player_indices.remove(self.players.index(player)+1)
+            print(f"Player {player} has lost the game!")
+
+
         pass
 
     def judge(self, player, card):
@@ -90,3 +99,4 @@ class game:
         :return:
         """
         # TODO: 出牌机制
+
