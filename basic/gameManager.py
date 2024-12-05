@@ -1,5 +1,7 @@
 import random
 
+from pyqtgraph.exceptionHandling import original_excepthook
+
 from player import player
 """
 我在这里加了一点小小的dictionary为了调整和规范卡牌的使用，避免后续出现超级大的bug
@@ -100,34 +102,44 @@ class gameManager():
         :param card_type: card_type, 卡片类型
         :return: the number if there is something to do with damage
         """
-        # 双方原始距离，调用calculate_distance计算
+        # 双方基础环形距离，调用calculate_distance计算
         original_distance = self.calculate_distance(source, target)
 
         source = self.playerList.get(source)
         target = self.playerList.get(target)
 
-        # 已装备weapon的距离
-        # weapon_equipped = source.equipment["weapon"]
-
-        # 已装备horse的距离之和怎么计算
-        # horse1_equipped = source.equipment["horse1"]
-        # horse2_equipped = source.equipment["horse-1"]
-        # horse_distance = self.card_dictionary[]
-        # 比较：武器距离 vs 原始距离 + horse距离和
-        # distance_permission = (self.card_dictionary[weapon_equipped][2] >= original_distance + horse_distance)
-
         if card_type == "kill":
+            # 补充：距离比较
+            # 武器攻击范围
+            weapon_equipped = source.equipment["weapon"]
+            if weapon_equipped is not None:
+                weapon_range = self.card_dictionary[weapon_equipped][2]
+            else:
+                weapon_range = 1
+            # 计算双方已装备horse的距离和
+            distance_mod = 0
+            if source.equipment["horse1"] is not None:
+                distance_mod += 1
+            if source.equipment["horse-1"] is not None:
+                distance_mod -= 1
+            if target.equipment["horse1"] is not None:
+                distance_mod += 1
+            if target.equipment["horse-1"] is not None:
+                distance_mod -= 1
+            final_distance = original_distance + distance_mod
+            distance_permission = (weapon_range <= final_distance)
 
             # AK47
             if source.kill_limitation and source.kill == 1:
                 print("not valid kill")
                 return None
+
             if not distance_permission:
-                print("not valid kill")
-                return None
+                 print("not valid kill")
+                 return None
             source.kill += 1
 
-            # doubleAttack
+            # doubleAttack: target无手牌时，kill造成二倍伤害
             if source.doubleAttack and len(target.cards) == 0:
                 self.card_dictionary["kill"][2] = 2
 
@@ -139,15 +151,15 @@ class gameManager():
             self.playerList.get(target).equipment["horse1"] = card_type
         elif self.card_dictionary.get(card_type)[0] == "horse2":
             self.playerList.get(target).equipment["horse2"] = card_type
-
-
         source.cards.remove(card_type)
-
         number = self.card_dictionary.get(card_type)[2]
         function = self.card_dictionary.get(card_type)[3]
         
         if self.check_defend(target) and card_type == "kill":
             number += self.use_card(target, target, "defend")
+            # 补充fireSupport: 若对方打出一张闪，则下次可以继续出杀（如何控制在同一回合？）
+            if source.fireSupport:
+                source.kill -= 1
 
         method = getattr(self, function)
         return method(target, number)
