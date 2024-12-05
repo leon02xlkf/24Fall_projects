@@ -139,9 +139,11 @@ class gameManager():
                  return None
             source.kill += 1
 
-            # doubleAttack: target无手牌时，kill造成二倍伤害
+            # 【已实现】doubleAttack: target无手牌时，kill造成二倍伤害
             if source.doubleAttack and len(target.cards) == 0:
                 self.card_dictionary["kill"][2] = 2
+
+
 
         elif self.card_dictionary.get(card_type)[0] == "weapon":
             self.playerList.get(target).equipment["weapon"] = card_type
@@ -157,7 +159,8 @@ class gameManager():
         
         if self.check_defend(target) and card_type == "kill":
             number += self.use_card(target, target, "defend")
-            # 补充fireSupport: 若对方打出一张闪，则下次可以继续出杀（如何控制在同一回合？）
+            # 【未实现】fireSupport: 若对方打出一张闪，则下次可以继续出杀
+            #  source方连续打出两张kill，如何控制在同一回合？）
             if source.fireSupport:
                 source.kill -= 1
 
