@@ -21,20 +21,22 @@ class gameManager():
     # 兵粮寸断：对除自己以外的距离1以内的一名角色使用。兵粮寸断于该角色判定阶段开始结算，若不为梅花，则跳过该角色摸牌阶段
     # 火攻：对任意一名有手牌的角色使用。目标角色展示一张手牌，若自己能弃掉一张与所展示牌相同花色的手牌，则火攻对该角色造成1点火焰伤害
     card_dictionary = {
+        # BasicCards
         "kill": ["basic", "cause damage to a player", 1, "kill"],
         "defend": ["basic", "defend 1 damage to a player", 1, "defend"],
         "heal": ["basic", "heal 1 hp to a player", 1, "heal"],
 
-        "AK47": ["equipment", "no limitation on using kill card", 1, "AK47"],
-        "APAmmunition": ["equipment", "cause the damage with ignoring the defend equipment", 2, "APAmmunition"],
-        "alchemy": ["equipment", "using two cards as a kill", 3, "alchemy"],
-        "extraAmmunition": ["equipment",
+        # Weapons
+        "AK47": ["weapon", "no limitation on using kill card", 1, "AK47"],
+        "APAmmunition": ["weapon", "cause the damage with ignoring the defend equipment", 2, "APAmmunition"],
+        "alchemy": ["weapon", "using two cards as a kill", 3, "alchemy"],
+        "extraAmmunition": ["weapon",
                             "when a player used a defend to avoid damage, you can drop 2 cards to make the damage cause",
                             3, "extraAmmunition"],
         "fireSupport": ["equipment", "when a player used a defend to avoid damage, you can use another kill", 3,
                         "fireSupport"],
-        "surgeryAttack": ["equipment",
-                          "you cause damage to a player, you can destrey a horse for the player",
+        "surgeryAttack": ["weapon",
+                          "you cause damage to a player, you can destroy a horse for the player",
                           3, "surgeryAttack"],
         "doubleAttack": ["equipment",
                          "if a player has no cards, cause double damage on the player",
@@ -96,6 +98,9 @@ class gameManager():
         :param card_type: card_type, 卡片类型
         :return: the number if there is something to do with damage
         """
+        # 计算距离
+        # original_distance = self.calculate_distance(source, target)
+
         source = self.playerList.get(source)
         source.cards.remove(card_type)
 
@@ -104,7 +109,6 @@ class gameManager():
         if self.check_defend(target) and card_type == "kill":
             number += self.use_card(target, target, "defend")
 
-        target = self.playerList.get(target)
         method = getattr(self, function)
         return method(target, number)
 
@@ -131,7 +135,8 @@ class gameManager():
         target.health -= number
         return number
 
-    def kill(self, target, number):
+    # Method of cards
+    def kill(self, target:player, number):
         return self.damage(target, number)
 
     def defend(self, target, number):
@@ -147,7 +152,8 @@ class gameManager():
         target.health += number
         pass
 
-    def AK47(self, target, number):
+    def AK47(self, target:player):
+        target.kill_limitation = False
         pass
 
     def APAmmunition(self, target, number):
@@ -168,18 +174,18 @@ class gameManager():
     def doubleAttack(self, target, number):
         pass
 
-gm = gameManager()
-gm.get_card_bynumber("1", 4)
-gm.get_card_bynumber("2", 4)
 
-print(gm.playerList.get("1").health, gm.playerList.get("1").cards)
-# print(gm.playerList.get("2").health, gm.playerList.get("2").cards)
+if __name__ == "__main__":
+    gm = gameManager()
+    gm.get_card_bylist("1", ['kill', 'heal', 'kill', 'APAmmunition', "AK47"])
+    gm.get_card_bylist("2", ['kill', 'defend', "defend", 'AK47'])
 
-gm.use_card("2", "1", "kill")
-print(gm.playerList.get("1").health, gm.playerList.get("1").cards)
-# print(gm.playerList.get("2").health, gm.playerList.get("2").cards)
+    gm.use_card("1", "1", "AK47")
+    print(gm.playerList.get("1").equipment)
+    print(gm.playerList.get("1").health, gm.playerList.get("1").cards)
+    print(gm.playerList.get("2").health, gm.playerList.get("2").cards)
 
-gm.drop_card("1", "kill")
-print(gm.playerList.get("1").health, gm.playerList.get("1").cards)
-gm.drop_card_byorder("1", 1)
-print(gm.playerList.get("1").health, gm.playerList.get("1").cards)
+    gm.use_card("1", "2", "kill")
+    gm.use_card("1", "2", "kill")
+    print(gm.playerList.get("1").health, gm.playerList.get("1").cards)
+    print(gm.playerList.get("2").health, gm.playerList.get("2").cards)

@@ -9,6 +9,11 @@ class pp():
                           "horse1": None,
                           "horse2": None}
 
+        self.kill_limitation = True
+        self.kill = 0
+
+        self.doubleAttack = False
+
 
 
 # class player:
@@ -57,7 +62,7 @@ class pp():
 #         用这个方法来扣血或者回血
 #         :param number:
 #         :return:
-#         """
+#"""""         """
 #         self.health += number
 #         return number
 #
