@@ -1,4 +1,6 @@
-import cards.basicCards as basicCards
+import random
+
+import cards.cardManager as basicCards
 import cards.skillCards as skillCards
 import cards.equipmentCards as equipmentCards
 from player import player
@@ -8,6 +10,7 @@ class game:
         self.players = list()  # 用于存储有哪些玩家
         self.round = 1 # 用于存储已经进行的回合数
         self.live_player_indices = list() # 用于存储存活玩家的编号，游戏开始时按照玩家数量生成，每有人死亡时从中删除对应数字，列表长度为1时返回元素（即为游戏胜者）
+
 
     def start(self, player_number):
         """
@@ -65,20 +68,19 @@ class game:
         :return:
         """
         # TODO：判定时需要提供每一张卡牌的花色/数字，这个实现起来复杂吗？（会影响牌堆生成和存储）
+        # 花色+数字直接用两个random就可以了，超级简单
         #  要不要直接用掷骰子判定（1-6中random，再判断奇偶等等。。。）
         pass
 
-    def get_card(self, player):
+    def get_card(self, target_player, card_number):
         """
         在这里直接指定获取几个牌，然后发给玩家，调用player类的 get_card 方法
         :param player:
         :return:
         """
-        if self.round == 1:
-            cards_get_num = 4 # 第一回合，每名玩家抓四张牌
-        else:
-            cards_get_num = 2 # 其余回合，每名玩家抓两张牌
-        # TODO: 调用player中的方法抓牌
+
+
+
 
 
     def drop_card(self, player):

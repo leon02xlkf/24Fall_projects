@@ -1,3 +1,10 @@
+import random
+class pp():
+    def __init__(self):
+        self.maximum_health = 3
+        self.health = 3
+        self.cards = []
+
 class player:
     def __init__(self, name):
         self.name = name
@@ -47,12 +54,15 @@ class player:
         self.health += number
         return number
 
-    def drop_card(self, cards_drop_num):
+    def drop_card_byNumber(self, cards_drop_num):
         """
         跟获取卡牌一样，用这个方法来弃牌。
         :param cards:
         :return:
         """
+        for i in range(0, cards_drop_num):
+            self.card.remove(random.choice(self.card))
 
-        # TODO: 弃牌机制
-        pass
+    def drop_card_byCard(self, card_list:list):
+        for card in card_list:
+            self.card.remove(card)
