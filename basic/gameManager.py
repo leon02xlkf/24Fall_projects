@@ -124,7 +124,7 @@ class gameManager():
 
     def drop_card_byorder(self, target, card_order):
         player = self.playerList.get(target)
-        card_type = player.cards[card_order]
+        card_type = player.cards[card_order-1]
         return self.drop_card(target, card_type)
 
     def damage(self, target, number):
@@ -173,9 +173,13 @@ gm.get_card_bynumber("1", 4)
 gm.get_card_bynumber("2", 4)
 
 print(gm.playerList.get("1").health, gm.playerList.get("1").cards)
-print(gm.playerList.get("2").health, gm.playerList.get("2").cards)
+# print(gm.playerList.get("2").health, gm.playerList.get("2").cards)
 
 gm.use_card("2", "1", "kill")
 print(gm.playerList.get("1").health, gm.playerList.get("1").cards)
-print(gm.playerList.get("2").health, gm.playerList.get("2").cards)
+# print(gm.playerList.get("2").health, gm.playerList.get("2").cards)
 
+gm.drop_card("1", "kill")
+print(gm.playerList.get("1").health, gm.playerList.get("1").cards)
+gm.drop_card_byorder("1", 1)
+print(gm.playerList.get("1").health, gm.playerList.get("1").cards)
