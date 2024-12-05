@@ -117,6 +117,16 @@ class gameManager():
 
         return defend != 0
 
+    def drop_card(self, target, card_type):
+        target = self.playerList.get(target)
+        target.cards.remove(card_type)
+        return -1
+
+    def drop_card_byorder(self, target, card_order):
+        player = self.playerList.get(target)
+        card_type = player.cards[card_order]
+        return self.drop_card(target, card_type)
+
     def damage(self, target, number):
         target.health -= number
         return number

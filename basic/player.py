@@ -4,6 +4,12 @@ class pp():
         self.maximum_health = 3
         self.health = 3
         self.cards = []
+        self.equipment = {"weapon": None,
+                          "defend": None,
+                          "horse1": None,
+                          "horse2": None}
+
+
 
 class player:
     def __init__(self, name):
@@ -11,6 +17,7 @@ class player:
         self.card = list()
         self.health = int()
         self.equipment = {"weapon": None,
+                          "defend": None,
                           "horse1": None,
                           "horse2": None}
         self.kill_used_this_turn = False #玩家本回合是否已经使用过了“杀”
