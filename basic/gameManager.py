@@ -1,6 +1,6 @@
 import random
 
-from player import pp
+from player import player
 """
 我在这里加了一点小小的dictionary为了调整和规范卡牌的使用，避免后续出现超级大的bug
 所有的卡牌现在可以直接在card_dictionary这个里面写进去，然后调用对应的卡牌方法了，避免了每次有新的卡都需要声明一次卡牌的尴尬问题
@@ -33,12 +33,12 @@ class gameManager():
         "extraAmmunition": ["weapon",
                             "when a player used a defend to avoid damage, you can drop 2 cards to make the damage cause",
                             3, "extraAmmunition"],
-        "fireSupport": ["equipment", "when a player used a defend to avoid damage, you can use another kill", 3,
+        "fireSupport": ["weapon", "when a player used a defend to avoid damage, you can use another kill", 3,
                         "fireSupport"],
         "surgeryAttack": ["weapon",
                           "you cause damage to a player, you can destroy a horse for the player",
                           3, "surgeryAttack"],
-        "doubleAttack": ["equipment",
+        "doubleAttack": ["weapon",
                          "if a player has no cards, cause double damage on the player",
                          3, "doubleAttack"]
     }
@@ -47,10 +47,7 @@ class gameManager():
     weight = [30, 24, 12, 2, 1, 1, 1, 1, 1, 1]
 
     def __init__(self):
-        pp1 = pp()
-        pp2 = pp()
-        self.playerList = {"1": pp1,
-                           "2": pp2}
+        self.playerList = {}
 
     def get_card_bynumber(self, target, number):
         """
@@ -102,6 +99,29 @@ class gameManager():
         # original_distance = self.calculate_distance(source, target)
 
         source = self.playerList.get(source)
+        target = self.playerList.get(target)
+        if card_type == "kill":
+
+            # AK47
+            if source.kill_limitation and source.kill == 1:
+                print("not valid kill")
+                return None
+            source.kill += 1
+
+            # doubleAttack
+            if source.doubleAttack and len(target.cards) == 0:
+                pass
+
+        elif self.card_dictionary.get(card_type)[0] == "weapon":
+            self.playerList.get(target).equipment["weapon"] = card_type
+        elif self.card_dictionary.get(card_type)[0] == "defend":
+            self.playerList.get(target).equipment["defend"] = card_type
+        elif self.card_dictionary.get(card_type)[0] == "horse1":
+            self.playerList.get(target).equipment["horse1"] = card_type
+        elif self.card_dictionary.get(card_type)[0] == "horse2":
+            self.playerList.get(target).equipment["horse2"] = card_type
+
+
         source.cards.remove(card_type)
 
         number = self.card_dictionary.get(card_type)[2]
@@ -131,7 +151,16 @@ class gameManager():
         card_type = player.cards[card_order-1]
         return self.drop_card(target, card_type)
 
-    def damage(self, target, number):
+    def calculate_distance(self, source, target):
+        source = self.playerList.get(source)
+        target = self.playerList.get(target)
+        right_distance = abs(int(source) - int(target))
+        left_distance = 1 + len(self.playerList) - max(int(source), int(target))
+        distance = min(right_distance, left_distance)
+        return distance
+
+    # ----------------------------------------------------------------------------------------------------------------
+    def damage(self, target:player, number):
         target.health -= number
         return number
 
@@ -139,7 +168,7 @@ class gameManager():
     def kill(self, target:player, number):
         return self.damage(target, number)
 
-    def defend(self, target, number):
+    def defend(self, target:player, number):
         """
         好像没什么用的方法
         :param target:
@@ -148,7 +177,7 @@ class gameManager():
         """
         return -1
 
-    def heal(self, target, number):
+    def heal(self, target:player, number):
         target.health += number
         pass
 
@@ -156,22 +185,23 @@ class gameManager():
         target.kill_limitation = False
         pass
 
-    def APAmmunition(self, target, number):
+    def APAmmunition(self, target:player, number):
         pass
 
-    def alchemy(self, target, number):
+    def alchemy(self, target:player, number):
         pass
 
-    def extraAmmunition(self, target, number):
+    def extraAmmunition(self, target:player, number):
         pass
 
-    def fireSupport(self, target, number):
+    def fireSupport(self, target:player, number):
         pass
 
-    def surgeryAttack(self, target, number):
+    def surgeryAttack(self, target:player, number):
         pass
 
-    def doubleAttack(self, target, number):
+    def doubleAttack(self, target:player):
+        target.doubleAttack = True
         pass
 
 

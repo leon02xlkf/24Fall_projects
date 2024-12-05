@@ -1,5 +1,5 @@
 import random
-class pp():
+class player():
     def __init__(self):
         self.maximum_health = 3
         self.health = 3
@@ -7,7 +7,7 @@ class pp():
         self.equipment = {"weapon": None,
                           "defend": None,
                           "horse1": None,
-                          "horse2": None}
+                          "horse-1": None}
 
         self.kill_limitation = True
         self.kill = 0
