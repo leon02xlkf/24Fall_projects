@@ -1,6 +1,6 @@
 # 2024 Fall Final Projects
 
-# An original version of the card game "The War of the Three Kingdom"
+# An original version of the card game "The War of the Three Kingdom (三国杀)"
 
 ## author: Guanyi Wang, Zhanchen Kang
 
