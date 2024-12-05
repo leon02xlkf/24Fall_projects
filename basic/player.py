@@ -45,7 +45,7 @@ class player():
 #         """
 #         if card.description == "cause damage to a player": # 使用kill
 #             if self.kill_used_this_turn:
-#                 if distance_condition: #TODO: 距离条件（weapon距离大于horse距离）
+#                 if distance_condition: # 距离条件（weapon距离大于horse距离）
 #                     if "defend" not in target.card: #受到伤害的玩家手牌中没有defend
 #                         target.health_change(-1)
 #                     else: #受到伤害的玩家手牌中有defend，则不扣除生命，移除一张defend
@@ -54,7 +54,7 @@ class player():
 #         elif card.description == "recover 1 health to a player": # 使用heal
 #             target.health_change(1)
 #         else:
-#             # TODO: 使用锦囊牌（skillcards）
+#             # 使用锦囊牌（skillcards）
 #             pass
 #
 #     def health_change(self, number):

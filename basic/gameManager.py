@@ -42,7 +42,7 @@ class gameManager():
                          "if a player has no cards, cause double damage on the player",
                          3, "doubleAttack"],
 
-        # Horses
+        # Horses （defend是+1马，attack是-1马）
         "defendHorse": ["horse1", "increase the distance between players by 1", 1, "defendHorse"],
         "attackHorse": ["horse-1", "reduce the distance between players by 1", -1, "attackHorse"]
 
@@ -100,14 +100,21 @@ class gameManager():
         :param card_type: card_type, 卡片类型
         :return: the number if there is something to do with damage
         """
-        # 计算距离
+        # 双方原始距离，调用calculate_distance计算
         original_distance = self.calculate_distance(source, target)
 
         source = self.playerList.get(source)
         target = self.playerList.get(target)
 
-        horse_distance = source.equipment["horse1"][2] + source.equipment["horse-1"][2] + target.equipment["horse1"][2] + target.equipment["horse-1"][2]
-        distance_permission = (source.equipment["weapon"][2] >= original_distance + horse_distance)
+        # 已装备weapon的距离
+        weapon_equipped = source.equipment["weapon"]
+
+        # 已装备horse的距离之和怎么导出，，，
+        horse1_equipped = source.equipment["horse1"]
+        horse2_equipped = source.equipment["horse-1"]
+        horse_distance = self.card_dictionary[]
+
+        distance_permission = (self.card_dictionary[weapon_equipped][2] >= original_distance + horse_distance)
 
         if card_type == "kill":
 
