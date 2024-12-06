@@ -220,7 +220,7 @@ class gameManager():
         target.health += number
         pass
 
-    def AK47(self, target:player):
+    def AK47(self, target:player, number):
         target.kill_limitation = False
         pass
 
