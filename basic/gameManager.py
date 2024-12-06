@@ -125,7 +125,7 @@ class gameManager():
             if target_player.equipment["horse-1"] is not None:
                 distance_mod -= 1
             final_distance = original_distance + distance_mod
-            distance_permission = (weapon_range <= final_distance)
+            distance_permission = (weapon_range >= final_distance)
 
             # AK47
             if source_player.kill_limitation and source_player.kill == 1:
@@ -142,6 +142,8 @@ class gameManager():
                 self.card_dictionary["kill"][2] = 2
 
         elif self.card_dictionary.get(card_type)[0] == "weapon":
+            if self.check_weapon(target_player):
+                self.remove_weapon(target_player)
             target_player.equipment["weapon"] = card_type
 
         elif self.card_dictionary.get(card_type)[0] == "defend":
@@ -160,8 +162,6 @@ class gameManager():
         
         if self.check_defend(target_player) and card_type == "kill":
             number += self.use_card(target, target, "defend")
-            # 【未实现】fireSupport: 若对方打出一张闪，则下次可以继续出杀
-            #  source方连续打出两张kill，如何控制在同一回合？）
             if source_player.fireSupport:
                 source_player.kill -= 1
 

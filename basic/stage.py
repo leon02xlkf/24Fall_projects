@@ -35,6 +35,7 @@ class game:
                 usage = input("card order:")
 
                 if usage == "q":
+                    self.discard_phase(self.playerList[index])
                     break
                 elif usage == "v":
                     self.visualization()
@@ -53,6 +54,16 @@ class game:
                     print(self.playerList[0], "wins")
                     return None
             index += 1
+
+    def discard_phase(self, current_player_id):
+        player = self.gameManager.playerList.get(current_player_id)
+        print("Discard Phase: You must discard cards if your hand is more than your HP.")
+        while len(player.cards) > player.health:
+            discard_card = input(f"{len(player.cards)-player.health} left. Please enter the card you want to discard.")
+            if discard_card not in player.cards:
+                print("Invalid card.")
+                continue
+            player.cards.remove(discard_card)
 
     def show_hp(self):
         for player in self.playerList:
