@@ -128,7 +128,7 @@ class gameManager():
             distance_permission = (weapon_range >= final_distance)
 
             # AK47
-            if source_player.kill_limitation and source_player.kill == 1:
+            if source_player.kill_limitation and source_player.kill >= 1:
                 print("not valid kill due to used kill before")
                 return None
 
@@ -167,6 +167,17 @@ class gameManager():
 
         method = getattr(self, function)
         return method(target_player, number)
+
+    def check_weapon(self, target:player):
+        if target.equipment.get("weapon") != None:
+            return True
+        else:
+            return False
+
+    def remove_weapon(self, target:player):
+        target.kill_limitation = True
+        target.fireSupport = False
+        target.doubleAttack = False
 
     def check_defend(self, target):
         cards = target.cards
@@ -242,6 +253,6 @@ class gameManager():
     def surgeryAttack(self, target:player, number):
         pass
 
-    def doubleAttack(self, target:player):
+    def doubleAttack(self, target:player, number):
         target.doubleAttack = True
         pass

@@ -14,7 +14,7 @@ class game:
 
     def start(self):
         for player in self.playerList:
-            self.gameManager.get_card_bylist(player, ['AK47', 'kill', 'kill', 'heal'])
+            self.gameManager.get_card_bylist(player, ['fireSupport', 'kill', 'kill', 'kill', 'heal', 'defend'])
         # return None
         return self.game()
 
