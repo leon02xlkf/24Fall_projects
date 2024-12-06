@@ -129,11 +129,11 @@ class gameManager():
 
             # AK47
             if source_player.kill_limitation and source_player.kill == 1:
-                print("not valid kill")
+                print("not valid kill due to used kill before")
                 return None
 
             if not distance_permission:
-                 print("not valid kill")
+                 print("not valid kill due to out of attack range")
                  return None
             source_player.kill += 1
 
@@ -198,6 +198,8 @@ class gameManager():
         hp = target.health
         return hp
 
+    def get_player(self, target):
+        return self.playerList.get(target)
     # ----------------------------------------------------------------------------------------------------------------
     def damage(self, target:player, number):
         target.health -= number

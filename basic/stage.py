@@ -26,30 +26,32 @@ class game:
             self.change_turn(index)
 
             while True:
-                target = self.gameManager.playerList.get(self.playerList[index])
+                target = self.gameManager.get_player(self.playerList[index])
                 print(self.playerList[index],"turn")
                 print(target.cards)
                 print(target.equipment)
                 self.show_hp()
                 print("do what you want")
                 usage = input("card order:")
-                aim = input("target:")
 
                 if usage == "q":
                     break
                 elif usage == "v":
                     self.visualization()
                     continue
-                # print(self.playerList[index], aim, target.cards[int(usage)])
-                # print(self.gameManager.playerList.get(self.playerList[index]))
+                elif target.cards[int(usage)] == 'kill' or target.cards[int(usage)] == 'heal':
+                    aim = input("target:")
+                else:
+                    aim = self.playerList[index]
+
                 self.gameManager.use_card(self.playerList[index], aim, target.cards[int(usage)])
 
-            for player in self.playerList:
-                if self.gameManager.playerList.get(player).health == 0:
-                    self.playerList.remove(player)
-            if len(self.playerList) == 1:
-                print(self.playerList[0], "wins")
-                break
+                for player in self.playerList:
+                    if self.gameManager.playerList.get(player).health == 0:
+                        self.playerList.remove(player)
+                if len(self.playerList) == 1:
+                    print(self.playerList[0], "wins")
+                    return None
             index += 1
 
     def show_hp(self):
