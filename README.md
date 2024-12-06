@@ -2,7 +2,7 @@
 
 # An original version of the card game "The War of the Three Kingdom (三国杀)"
 
-## author: Guanyi Wang(), Zhanchen Kang(zk11)
+## author: Guanyi Wang(guanyiw2), Zhanchen Kang(zk11)
 
 Several improvements have been made and the project is 95% completed. 
 
