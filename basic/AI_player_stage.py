@@ -62,7 +62,7 @@ class AIgame:
                 else:
                     print("\nAI's turn")
                     print("calculating solutions")
-                    time.sleep(10)
+                    time.sleep(5)
                     card = self.AI_player.analyze(checker, self.gameManager.get_player(self.playerList[0]).health, status)
                     if card != "q":
                         usage = self.AI_player.cards.index(card)

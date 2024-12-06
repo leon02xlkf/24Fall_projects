@@ -78,7 +78,7 @@ class AI_player():
             return self.use_card()
 
         if self.health == 3:
-            self.weights["heal"] = [5, 5]
+            self.weights["heal"] = [3, 3]
 
         if self.health <2:
             self.update_weight("heal", 10, 0)
