@@ -3,7 +3,7 @@ from basic.player import  player
 from basic.ai_player import AI_player
 import time
 
-class game:
+class AIgame:
     def __init__(self):
         self.gameManager = gameManager()
         self.playerList = []
@@ -38,23 +38,27 @@ class game:
             while True:
                 target = self.gameManager.get_player(self.playerList[index])
                 if self.turn == 1:
-                    print("\n", self.playerList[index], "turn")
-                    print(target.cards)
-                    print(target.equipment)
-                    self.show_hp()
-                    print("do what you want")
-                    usage = input("card order:")
+                    try:
+                        print("\n", self.playerList[index], "turn")
+                        print(target.cards)
+                        print(target.equipment)
+                        self.show_hp()
+                        print("do what you want")
+                        usage = input("card order:")
 
-                    if usage == "q":
-                        self.discard_phase(self.playerList[index])
-                        break
-                    elif usage == "v":
-                        self.visualization()
+                        if usage == "q":
+                            self.discard_phase(self.playerList[index])
+                            break
+                        elif usage == "v":
+                            self.visualization()
+                            continue
+                        elif target.cards[int(usage)] == 'kill' or target.cards[int(usage)] == 'heal':
+                            aim = input("target:")
+                        else:
+                            aim = self.playerList[index]
+                    except IndexError:
+                        print("incorrect index, check input")
                         continue
-                    elif target.cards[int(usage)] == 'kill' or target.cards[int(usage)] == 'heal':
-                        aim = input("target:")
-                    else:
-                        aim = self.playerList[index]
                 else:
                     print("\nAI's turn")
                     print("calculating solutions")
@@ -70,8 +74,11 @@ class game:
                     else:
                         aim = self.playerList[0]
                     print("AI used %s, towards %s"% (target.cards[int(usage)], aim))
-
-                checker = self.gameManager.use_card(self.playerList[index], aim, target.cards[int(usage)])[1]
+                try:
+                    checker = self.gameManager.use_card(self.playerList[index], aim, target.cards[int(usage)])[1]
+                except Exception:
+                    print("something wrong, check your input")
+                    continue
                 status = 1
 
                 for player in self.playerList:
@@ -116,7 +123,3 @@ class game:
             print("cards:", i.cards)
             print("equipments:", i.equipment)
         print("\n")
-
-game = game()
-game.initialization()
-game.start()

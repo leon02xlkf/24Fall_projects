@@ -14,7 +14,7 @@ class game:
 
     def start(self):
         for player in self.playerList:
-            self.gameManager.get_card_bylist(player, ['fireSupport', 'AK47', 'alchemy', 'heal', 'defend'])
+            self.gameManager.get_card_bynumber(player, 4)
         # return None
         return self.game()
 
@@ -27,33 +27,40 @@ class game:
 
             while True:
                 target = self.gameManager.get_player(self.playerList[index])
-                print(self.playerList[index],"turn")
-                print(target.cards)
-                print(target.equipment)
-                self.show_hp()
-                print("do what you want")
-                usage = input("card order:")
+                try:
+                    print(self.playerList[index],"turn")
+                    print(target.cards)
+                    print(target.equipment)
+                    self.show_hp()
+                    print("do what you want")
+                    usage = input("card order:")
 
-                if usage == "q":
-                    self.discard_phase(self.playerList[index])
-                    break
-                elif usage == "v":
-                    self.visualization()
-                    continue
-                elif usage == "a":
-                    if self.try_alchemy_as_kill(self.playerList[index]):
-                        print("2 cards in hand used as kill.")
+                    if usage == "q":
+                        self.discard_phase(self.playerList[index])
+                        break
+                    elif usage == "v":
+                        self.visualization()
+                        continue
+                    elif usage == "a":
+                        if self.try_alchemy_as_kill(self.playerList[index]):
+                            print("2 cards in hand used as kill.")
+                            aim = input("target:")
+                            self.gameManager.use_card(self.playerList[index], aim, "kill")
+                        else:
+                            print("You cannot use alchemy as kill.")
+                        continue
+                    elif target.cards[int(usage)] == 'kill' or target.cards[int(usage)] == 'heal':
                         aim = input("target:")
-                        self.gameManager.use_card(self.playerList[index], aim, "kill")
                     else:
-                        print("You cannot use alchemy as kill.")
+                        aim = self.playerList[index]
+                except IndexError:
+                    print("something wrong, check your input")
                     continue
-                elif target.cards[int(usage)] == 'kill' or target.cards[int(usage)] == 'heal':
-                    aim = input("target:")
-                else:
-                    aim = self.playerList[index]
-
-                self.gameManager.use_card(self.playerList[index], aim, target.cards[int(usage)])
+                try:
+                    self.gameManager.use_card(self.playerList[index], aim, target.cards[int(usage)])
+                except Exception:
+                    print("something wrong, check your input")
+                    continue
 
                 for player in self.playerList:
                     if self.gameManager.playerList.get(player).health == 0:
@@ -109,8 +116,3 @@ class game:
             print("cards:", i.cards)
             print("equipments:", i.equipment)
         print("\n")
-
-game = game()
-
-game.initialization(2)
-game.start()
