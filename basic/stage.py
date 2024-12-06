@@ -1,5 +1,5 @@
-from gameManager import gameManager
-from player import  player
+from basic.gameManager import gameManager
+from basic.player import  player
 
 class game:
     def __init__(self):
