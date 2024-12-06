@@ -227,12 +227,6 @@ class gameManager():
         return self.damage(target, number)
 
     def defend(self, target:player, number):
-        """
-        好像没什么用的方法
-        :param target:
-        :param number:
-        :return:
-        """
         return -1
 
     def heal(self, target:player, number):
@@ -243,20 +237,11 @@ class gameManager():
         target.kill_limitation = False
         pass
 
-    def APAmmunition(self, target:player, number):
-        pass
-
     def alchemy(self, target:player, number):
-        pass
-
-    def extraAmmunition(self, target:player, number):
         pass
 
     def fireSupport(self, target:player, number):
         target.fireSupport = True
-        pass
-
-    def surgeryAttack(self, target:player, number):
         pass
 
     def doubleAttack(self, target:player, number):
