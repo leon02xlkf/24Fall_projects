@@ -14,7 +14,7 @@ class game:
 
     def start(self):
         for player in self.playerList:
-            self.gameManager.get_card_bylist(player, ['fireSupport', 'kill', 'kill', 'kill', 'heal', 'defend'])
+            self.gameManager.get_card_bylist(player, ['fireSupport', 'AK47', 'alchemy', 'heal', 'defend'])
         # return None
         return self.game()
 
@@ -40,6 +40,14 @@ class game:
                 elif usage == "v":
                     self.visualization()
                     continue
+                elif usage == "a":
+                    if self.try_alchemy_as_kill(self.playerList[index]):
+                        print("2 cards in hand used as kill.")
+                        aim = input("target:")
+                        self.gameManager.use_card(self.playerList[index], aim, "kill")
+                    else:
+                        print("You cannot use alchemy as kill.")
+                    continue
                 elif target.cards[int(usage)] == 'kill' or target.cards[int(usage)] == 'heal':
                     aim = input("target:")
                 else:
@@ -64,6 +72,25 @@ class game:
                 print("Invalid card.")
                 continue
             player.cards.remove(discard_card)
+
+    def try_alchemy_as_kill(self, current_player_id):
+        """
+        当玩家输入“a”尝试通过alchemy技能出杀时自动使用前两张手牌为kill
+        条件：已装备alchemy，手中无kill牌，手中至少有两张其他牌
+        :param current_player_id:
+        :return:
+        """
+        player_obj = self.gameManager.playerList.get(current_player_id)
+        if player_obj.equipment["weapon"] != "alchemy":
+            return False
+        if "kill" in player_obj.cards:
+            return False
+        if len(player_obj.cards) < 2:
+            return False
+        chosen_cards = player_obj.cards[:2]
+        for card in chosen_cards:
+            player_obj.cards.remove(card)
+        return True
 
     def show_hp(self):
         for player in self.playerList:

@@ -107,8 +107,7 @@ class gameManager():
         target_player = self.playerList.get(target)
 
         if card_type == "kill":
-            # 补充：距离比较
-            # 武器攻击范围
+            # 距离比较：武器攻击范围
             weapon_equipped = source_player.equipment["weapon"]
             if weapon_equipped is not None:
                 weapon_range = self.card_dictionary[weapon_equipped][2]
