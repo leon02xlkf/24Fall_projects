@@ -23,7 +23,7 @@ class gameManager():
     card_dictionary = {
         # BasicCards
         "kill": ["basic", "cause damage to a player", 1, "kill"],
-        "defend": ["basic", "defend 1 damage to a player", 1, "defend"],
+        "defend": ["basic", "defend 1 damage to a player", -1, "defend"],
         "heal": ["basic", "heal 1 hp to a player", 1, "heal"],
 
         # Weapons
@@ -47,9 +47,8 @@ class gameManager():
         "attackHorse": ["horse-1", "reduce the distance between players by 1", -1, "attackHorse"]
 
     }
-    card_type = ["kill", "defend", "heal", "AK47", "APAmmunition", "alchemy", "extraAmmunition", "fireSupport",
-                 "surgeryAttack", "doubleAttack"]
-    weight = [30, 24, 12, 2, 1, 1, 1, 1, 1, 1]
+    card_type = ["kill", "defend", "heal", "AK47", "fireSupport", "doubleAttack"]
+    weight = [30, 24, 12, 2, 1, 1]
 
     def __init__(self):
         self.playerList = {}
@@ -90,6 +89,7 @@ class gameManager():
         target.cards.append(card_type)
 
     def use_card(self, source, target, card_type):
+        print("\n%s give %s a %s\n" % (source, target, card_type))
         """
         基础的使用卡牌的方法，所有对于用卡的修改都应该在这里
         只有这个方法可以用卡牌，其他的方法请死都不要动卡牌，不然要出问题了
@@ -129,11 +129,11 @@ class gameManager():
             # AK47
             if source_player.kill_limitation and source_player.kill >= 1:
                 print("not valid kill due to used kill before")
-                return None
+                return None, False
 
             if not distance_permission:
                  print("not valid kill due to out of attack range")
-                 return None
+                 return None, False
             source_player.kill += 1
 
             # 【已实现】doubleAttack: target无手牌时，kill造成二倍伤害
@@ -154,18 +154,25 @@ class gameManager():
         elif self.card_dictionary.get(card_type)[0] == "horse2":
             target_player.equipment["horse2"] = card_type
 
+        elif card_type == "heal":
+            if target_player.health == target_player.maximum_health:
+                print("not valid heal due to full hp")
+                return None, False
 
         source_player.cards.remove(card_type)
         number = self.card_dictionary.get(card_type)[2]
         function = self.card_dictionary.get(card_type)[3]
         
         if self.check_defend(target_player) and card_type == "kill":
-            number += self.use_card(target, target, "defend")
+            number += self.use_card(target, target, "defend")[0]
             if source_player.fireSupport:
                 source_player.kill -= 1
 
+
+
         method = getattr(self, function)
-        return method(target_player, number)
+
+        return method(target_player, number), True
 
     def check_weapon(self, target:player):
         if target.equipment.get("weapon") != None:
@@ -194,7 +201,7 @@ class gameManager():
 
     def drop_card_byorder(self, target, card_order):
         player = self.playerList.get(target)
-        card_type = player.cards[card_order-1]
+        card_type = player.cards[card_order]
         return self.drop_card(target, card_type)
 
     def calculate_distance(self, source, target):
