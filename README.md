@@ -9,6 +9,9 @@ Several improvements have been made and the project is 95% completed.
 However, due to the limitation of our capacity, there are still some functions and designs not implemented. 
 Maybe we will try to fix it a few days later.
 
+Also, thanks to the CodeWithMe program, we saved a lot of time and git a lot less, which do improve the working efficiency.
+Again, thanks to everyone who contributed in this program and hope you guys will enjoy it. 
+
 ## Hope you enjoy the game.
 
 ### The game introduction is listed below
