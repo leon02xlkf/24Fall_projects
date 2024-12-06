@@ -1,6 +1,6 @@
 import random
 
-from player import player
+from basic.player import player
 """
 我在这里加了一点小小的dictionary为了调整和规范卡牌的使用，避免后续出现超级大的bug
 所有的卡牌现在可以直接在card_dictionary这个里面写进去，然后调用对应的卡牌方法了，避免了每次有新的卡都需要声明一次卡牌的尴尬问题
