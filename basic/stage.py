@@ -14,7 +14,7 @@ class game:
 
     def start(self):
         for player in self.playerList:
-            self.gameManager.get_card_bynumber(player, 4)
+            self.gameManager.get_card_bylist(player, ['surgeryAttack', 'kill', 'kill'])
         # return None
         return self.game()
 
@@ -30,15 +30,18 @@ class game:
                 print(self.playerList[index],"turn")
                 print(target.cards)
                 print(target.equipment)
-                print("aliving player",self.playerList)
+                self.show_hp()
                 print("do what you want")
                 usage = input("card order:")
                 aim = input("target:")
 
                 if usage == "q":
                     break
-                print(self.playerList[index], aim, target.cards[int(usage)])
-                print(self.gameManager.playerList.get(self.playerList[index]))
+                elif usage == "v":
+                    self.visualization()
+                    continue
+                # print(self.playerList[index], aim, target.cards[int(usage)])
+                # print(self.gameManager.playerList.get(self.playerList[index]))
                 self.gameManager.use_card(self.playerList[index], aim, target.cards[int(usage)])
 
             for player in self.playerList:
@@ -49,17 +52,23 @@ class game:
                 break
             index += 1
 
+    def show_hp(self):
+        for player in self.playerList:
+            print("player%s: %d hp" % (player, self.gameManager.get_hp(player)))
+
 
     def change_turn(self, index):
         self.gameManager.get_card_bynumber(self.playerList[index], 2)
 
     def visualization(self):
+        print("\n")
         for player in self.playerList:
-            print(player)
+            print("player no.",player)
             i = self.gameManager.playerList.get(player)
-            print(i.health)
-            print(i.cards)
-            print(i.equipment)
+            print("hp:", i.health)
+            print("cards:", i.cards)
+            print("equipments:", i.equipment)
+        print("\n")
 
 game = game()
 
