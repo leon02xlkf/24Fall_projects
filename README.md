@@ -2,7 +2,16 @@
 
 # An original version of the card game "The War of the Three Kingdom (三国杀)"
 
-## author: Guanyi Wang, Zhanchen Kang
+## author: Guanyi Wang(), Zhanchen Kang(zk11)
+
+Several improvements have been made and the project is 95% completed. 
+
+However, due to the limitation of our capacity, there are still some functions and designs not implemented. 
+Maybe we will try to fix it a few days later.
+
+## Hope you enjoy the game.
+
+### The game introduction is listed below
 
 This will be an original version of the card game "The War of the Three Kingdom". 
 In this game, each player has 3 different stages that should be taken by order in each turn.
