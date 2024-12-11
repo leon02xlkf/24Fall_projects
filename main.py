@@ -12,29 +12,30 @@ def function():
     return -1, 2
 
 if __name__ == "__main__":
+    """
+    This part will run the game based on the mode given by the user.
+    """
     while True:
-        print("welcome to the \"War of Three kingdom\" game system!")
-        print("several errors are fixed, however, there will be more")
-        print("use the choices below to enter the game:")
-        print("1 for self play, to play against yourself")
-        print("2 for play with a basic AI")
-        print("q for quit")
-        command = input("command:")
+        print("***** Welcome to the \"War of Three Kingdoms\" game! *****")
+        print("1 --- Player vs. Player")
+        print("2 --- Player vs. Computer")
+        print("Q --- Quit")
+        command = input("Please enter your choice:")
         if command == "1":
-            print("use the index as python does to use and drop the card")
-            print("you can always input \'q\' to get to the dropping card stage")
-            print("you can always input \'v\' to see every parameter in the game")
+            print("Enter the index of the card to use/drop it (Start from 0).")
+            print("q --- move on to the discarding phase")
+            print("v --- show detailed information about the game")
             game = game()
             game.initialization(2)
             game.start()
         elif command == "2":
-            print("use the index as python does to use and drop the card")
-            print("you can always input \'q\' to get to the dropping card stage")
-            print("you can always input \'v\' to see every parameter in the game")
+            print("Enter the index of the card to use/drop it (Start from 0).")
+            print("q --- move on to the discarding phase")
+            print("v --- show detailed information about the game")
             game = AIgame()
             game.initialization()
             game.start()
-        elif command == "q":
+        elif command == "Q":
             exit(0)
         else:
             continue
