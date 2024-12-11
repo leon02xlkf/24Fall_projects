@@ -77,7 +77,7 @@ class gameManager():
         target.cards.append(card_type)
 
     def use_card(self, source, target, card_type):
-        print("\n%s give %s a %s\n" % (source, target, card_type))
+        print("\n%s used %s towards %s\n" % (source, card_type, target))
         """
         基础的使用卡牌的方法，所有对于用卡的修改都应该在这里
         只有这个方法可以用卡牌，其他的方法请死都不要动卡牌，不然要出问题了
@@ -155,8 +155,6 @@ class gameManager():
             number += self.use_card(target, target, "defend")[0]
             if source_player.fireSupport:
                 source_player.kill -= 1
-
-
 
         method = getattr(self, function)
 

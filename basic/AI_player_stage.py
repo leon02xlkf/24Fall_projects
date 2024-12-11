@@ -69,7 +69,7 @@ class AIgame:
                             # For other cards (i.e. equipment cards), the target is the user himself
                             aim = self.playerList[index]
                     except IndexError:
-                        print("incorrect index, check input")
+                        print("Incorrect index, please check your input")
                         continue
                 else: # AI player's turn
                     print("\nAI's turn")
@@ -89,7 +89,7 @@ class AIgame:
                 try:
                     checker = self.gameManager.use_card(self.playerList[index], aim, target.cards[int(usage)])[1]
                 except Exception:
-                    print("something wrong, check your input")
+                    print("Something is wrong, please check your input")
                     continue
                 status = 1
 
@@ -103,12 +103,15 @@ class AIgame:
             self.turn *= -1
 
     def discard_phase(self, target):
+        """
+        
+        """
         if self.turn == 1:
             player = self.gameManager.playerList.get(target)
-            print("Discard Phase: You must discard cards if your hand is more than your HP.")
+            print("Discard Phase: You must drop cards if the num of current cards is more than your HP.")
             while len(player.cards) > player.health:
-                print("your cards:", player.cards)
-                discard_card = input(f"{len(player.cards)-player.health} left. Please enter the card you want to discard.")
+                print("Your cards:", player.cards)
+                discard_card = input(f"{len(player.cards)-player.health} left. Please enter index of the card you want to discard:")
                 self.gameManager.drop_card_byorder(target, int(discard_card))
         else:
             player = self.gameManager.playerList.get(target)
@@ -127,6 +130,9 @@ class AIgame:
 
 
     def change_turn(self, index):
+        """
+        Each time when switching to the other player, draw 2 cards.
+        """
         self.gameManager.get_card_bynumber(self.playerList[index], 2)
 
     def visualization(self):

@@ -1,5 +1,3 @@
-
-
 class AI_player():
     def __init__(self):
         self.maximum_health = 3
@@ -51,7 +49,6 @@ class AI_player():
         return None
 
     def analyze(self, is_last_move_valid, target_hp, stage_of_move):
-
         # print("AI gets", len(self.cards), "cards, which are:")
         # print(self.cards)
         # print("hp:", self.health)
