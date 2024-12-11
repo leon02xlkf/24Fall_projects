@@ -11,24 +11,33 @@ class AIgame:
         self.turn = 0
 
     def initialization(self):
+        # Generate a player controlled by the user
         i = 1
         newplayer = player()
         self.gameManager.playerList[f"{i}"] = newplayer
         self.playerList.append(f"{i}")
 
+        # Generate an AI player
         self.AI_player = AI_player()
         self.gameManager.playerList["2"] = self.AI_player
         self.playerList.append("2")
 
     def start(self):
+        """
+        Each player draw 4 cards at the very beginning of the game.
+        """
         for player in self.playerList:
             self.gameManager.get_card_bynumber(player, 4)
         # return None
         return self.game()
 
     def game(self):
+        """
+        This function describes how two players take turns.
+        Both players Draw-Play-Discard until one player's HP reaches 0, then the other player wins.
+        """
         index = 0
-        self.turn = 1
+        self.turn = 1 # This records whose turn it is (1 for human player, -1 for AI player)
         checker = None
         while True:
             if index > len(self.playerList)-1:
@@ -37,31 +46,34 @@ class AIgame:
             status = 1
             while True:
                 target = self.gameManager.get_player(self.playerList[index])
-                if self.turn == 1:
+                if self.turn == 1: # Human player's turn
                     try:
-                        print("\n", self.playerList[index], "turn")
+                        print(f"\nPlayer{self.playerList[index]}'s turn")
+                        print("Your cards:", end="")
                         print(target.cards)
+                        print("Your equipment:", end="")
                         print(target.equipment)
                         self.show_hp()
-                        print("do what you want")
-                        usage = input("card order:")
+                        usage = input("Enter your action:")
 
-                        if usage == "q":
+                        if usage == "q": # Move to the discard phase
                             self.discard_phase(self.playerList[index])
                             break
-                        elif usage == "v":
+                        elif usage == "v": # View the details of the game in progress
                             self.visualization()
                             continue
                         elif target.cards[int(usage)] == 'kill' or target.cards[int(usage)] == 'heal':
-                            aim = input("target:")
+                            # For "kill" and "heal", assign a target by the user
+                            aim = input("Target:")
                         else:
+                            # For other cards (i.e. equipment cards), the target is the user himself
                             aim = self.playerList[index]
                     except IndexError:
                         print("incorrect index, check input")
                         continue
-                else:
+                else: # AI player's turn
                     print("\nAI's turn")
-                    print("calculating solutions")
+                    print("Calculating solutions...")
                     time.sleep(5)
                     card = self.AI_player.analyze(checker, self.gameManager.get_player(self.playerList[0]).health, status)
                     if card != "q":
@@ -107,19 +119,26 @@ class AIgame:
 
 
     def show_hp(self):
+        """
+        Show the HP of both players.
+        """
         for player in self.playerList:
-            print("player%s: %d hp" % (player, self.gameManager.get_hp(player)))
+            print("Player%s: HP = %d" % (player, self.gameManager.get_hp(player)))
 
 
     def change_turn(self, index):
         self.gameManager.get_card_bynumber(self.playerList[index], 2)
 
     def visualization(self):
-        print("\n")
+        """
+        Show the detailed information of the game in progress, including:
+        Current cards, equipment, and HP of BOTH players.
+        """
+        print("\n---Current game status---")
         for player in self.playerList:
-            print("player no.",player)
+            print("Player",player)
             i = self.gameManager.playerList.get(player)
-            print("hp:", i.health)
-            print("cards:", i.cards)
-            print("equipments:", i.equipment)
-        print("\n")
+            print("HP =", i.health)
+            print("Cards:", i.cards)
+            print("Equipment:", i.equipment)
+        print("\n---Game continues---")

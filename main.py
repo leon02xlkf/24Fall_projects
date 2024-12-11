@@ -1,5 +1,4 @@
 """
-latest edited on Nov 7, 2024
 author: Zhanchen Kang, Guanyi Wang
 
 This is the main file of the entire project.
@@ -22,16 +21,16 @@ if __name__ == "__main__":
         print("Q --- Quit")
         command = input("Please enter your choice:")
         if command == "1":
-            print("Enter the index of the card to use/drop it (Start from 0).")
+            print("\nEnter the index of the card to use/drop it (Start from 0).")
             print("q --- move on to the discarding phase")
-            print("v --- show detailed information about the game")
+            print("v --- show detailed information about the game in progress")
             game = game()
             game.initialization(2)
             game.start()
         elif command == "2":
-            print("Enter the index of the card to use/drop it (Start from 0).")
+            print("\nEnter the index of the card to use/drop it (Start from 0).")
             print("q --- move on to the discarding phase")
-            print("v --- show detailed information about the game")
+            print("v --- show detailed information about the game in progress")
             game = AIgame()
             game.initialization()
             game.start()
