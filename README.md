@@ -35,12 +35,12 @@ Both players keep exchanging turns until one player's HP comes to zero, then the
 ### Structure & Complexity Analysis
 Generally, the main performance constraints come from player interactions and AI logic.
 The code’s memory consumption scales linearly with the number of players, cards, and equipment.
-1. Card Management via card_dictionary
+1. Card Management via card_dictionary：
 The card_dictionary centralizes card definitions, including types, effects, and attributes like damage or healing values. 
 Each card's behavior (e.g., "kill," "heal") is encoded in a single dictionary for easy reference.
 This design simplifies card management and makes it easy to add or modify cards without changing other parts of the program.
    (We intend to make some potential future improvements: extend this to include dynamic effects by associating cards with lambda functions)
-2. Unified Card Usage Logic in use_card
+2. Unified Card Usage Logic in use_card：
 The use_card method serves as a centralized handler for using cards. 
 It determines the card type, applies its effects, and manages card-specific rules like distance checks, weapon effects, and player equipment.
 This ensures consistent behavior across different parts of the game.
