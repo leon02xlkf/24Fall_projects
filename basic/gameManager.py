@@ -1,12 +1,7 @@
 import random
 
 from basic.player import player
-"""
-我在这里加了一点小小的dictionary为了调整和规范卡牌的使用，避免后续出现超级大的bug
-所有的卡牌现在可以直接在card_dictionary这个里面写进去，然后调用对应的卡牌方法了，避免了每次有新的卡都需要声明一次卡牌的尴尬问题
 
-所有的卡牌使用都需要通过use_card()这个方法，所以请务必保证除了这个方法之外其他的方法死都不会使用卡牌。
-"""
 class gameManager():
     card_dictionary = {
         # BasicCards
@@ -16,7 +11,6 @@ class gameManager():
 
         # Weapons
         "AK47": ["weapon", "no limitation on using kill card", 1, "AK47"],
-        "APAmmunition": ["weapon", "cause the damage with ignoring the defend equipment", 2, "APAmmunition"],
         "alchemy": ["weapon", "using two cards as a kill", 3, "alchemy"],
         "extraAmmunition": ["weapon",
                             "when a player used a defend to avoid damage, you can drop 2 cards to make the damage cause",

@@ -7,14 +7,15 @@ class AIgame:
     def __init__(self):
         self.gameManager = gameManager()
         self.playerList = []
+        self.newplayer = None
         self.AI_player = None
         self.turn = 0
 
     def initialization(self):
         # Generate a player controlled by the user
         i = 1
-        newplayer = player()
-        self.gameManager.playerList[f"{i}"] = newplayer
+        self.newplayer = player()
+        self.gameManager.playerList[f"{i}"] = self.newplayer
         self.playerList.append(f"{i}")
 
         # Generate an AI player
@@ -44,6 +45,8 @@ class AIgame:
                 index = 0
             self.change_turn(index)
             status = 1
+            AI_kill_used = False
+            self.newplayer.kill_limitation = False
             while True:
                 target = self.gameManager.get_player(self.playerList[index])
                 if self.turn == 1: # Human player's turn
@@ -83,8 +86,12 @@ class AIgame:
                         break
                     if card != "kill":
                         aim = self.playerList[index]
+                    elif card == "kill" and AI_kill_used and self.AI_player.equipment["weapon"] != "AK47":
+                        self.discard_phase(self.playerList[index])
+                        break
                     else:
                         aim = self.playerList[0]
+                        AI_kill_used = True
                     print("AI used %s, towards %s"% (target.cards[int(usage)], aim))
                 try:
                     checker = self.gameManager.use_card(self.playerList[index], aim, target.cards[int(usage)])[1]
@@ -109,9 +116,9 @@ class AIgame:
         """
         if self.turn == 1:
             player = self.gameManager.playerList.get(target)
-            print("Discard Phase: You must drop cards if the num of current cards is more than your HP.")
+            print("\nDiscard Phase: You must drop cards until the num of current cards is no more than your HP.")
             while len(player.cards) > player.health:
-                print("Your cards:", player.cards)
+                print("Your current cards:", player.cards)
                 discard_card = input(f"{len(player.cards)-player.health} left. Please enter index of the card you want to discard:")
                 self.gameManager.drop_card_byorder(target, int(discard_card))
         else:
