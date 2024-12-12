@@ -13,6 +13,9 @@ class AI_player():
 
         self.fireSupport = False
         self.doubleAttack = False
+
+        # Assign weights to different cards so that AI will use/drop them according to these weight.
+        # The 1st digit stands for the weight in using the card, whereas the 2nd digit represents the discarding phase
         self.weights = {
             "kill": [5,5],
             "defend": [2,1],
@@ -21,15 +24,25 @@ class AI_player():
             "fireSupport": [1,1],
             "doubleAttack": [1,1]
         }
+
         self.index = 0
 
     def use_card(self):
+        """
+        Use the card with index 0 in the sorted list of current cards.
+        Jump to the discard phase if the card is heal or defend when HP is full.
+        """
         self.cards = self.sort_use_card()
         if self.health == 3 and (self.cards[self.index] == 'heal' or self.cards[self.index] == 'defend'):
             return "q"
-        return self.cards[self.index]
+        use_card = self.cards[self.index]
+        self.index = 0
+        return use_card
 
     def sort_use_card(self):
+        """
+        Sort the list of current cards by their weights.
+        """
         cards = sorted(self.cards, key=lambda card: self.weights[card][0], reverse=True)
         return cards
 

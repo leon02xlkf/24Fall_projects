@@ -43,14 +43,10 @@ class gameManager():
 
     def get_card_bynumber(self, target, number):
         """
-        giving a player several random generated cards
-        通过指定数字来随机生成若干个卡牌，之后给某一个玩家的方法。
-        :param target:
-        :param number:
-        :return:
+        Draw cards from the system according to the given number.
         """
-        for i in range(0, number):
-            card_type = random.choices(list(self.card_type), weights=self.weight)
+        for i in range(number):
+            card_type = random.choices(self.card_type, weights=self.weight)
             self.get_card(target, card_type[0])
 
     def get_card_bylist(self,target, card_list):
@@ -65,19 +61,11 @@ class gameManager():
             self.get_card(target, card)
 
     def get_card(self, target, card_type):
-        """
-        giving a player 1 specific card, everything to do with get a card must be done with this function
-        通过指定卡牌类型，把固定1张卡牌给指定玩家的方法
-        所有关于获取卡牌的方法请务必通过该方法给指定玩家卡牌，请死都不要用其他的方法给
-        :param target: target player， 目标玩家
-        :param card_type: card_type, 卡牌类型
-        :return:
-        """
         target = self.playerList.get(target)
         target.cards.append(card_type)
 
     def use_card(self, source, target, card_type):
-        print("\n%s used %s towards %s\n" % (source, card_type, target))
+
         """
         基础的使用卡牌的方法，所有对于用卡的修改都应该在这里
         只有这个方法可以用卡牌，其他的方法请死都不要动卡牌，不然要出问题了
@@ -157,7 +145,7 @@ class gameManager():
                 source_player.kill -= 1
 
         method = getattr(self, function)
-
+        print("\n%s used %s towards %s\n" % (source, card_type, target))
         return method(target_player, number), True
 
     def check_weapon(self, target:player):

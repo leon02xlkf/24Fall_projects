@@ -97,7 +97,8 @@ class AIgame:
                     if self.gameManager.playerList.get(player).health == 0:
                         self.playerList.remove(player)
                 if len(self.playerList) == 1:
-                    print(self.playerList[0], "wins")
+                    print("***** Game Over *****")
+                    print("Player", self.playerList[0], "wins")
                     return None
             index += 1
             self.turn *= -1

@@ -15,7 +15,7 @@ if __name__ == "__main__":
     This part will run the game based on the mode given by the user.
     """
     while True:
-        print("***** Welcome to the \"War of Three Kingdoms\" game! *****")
+        print("\n***** Welcome to the \"War of Three Kingdoms\" game! *****")
         print("1 --- Player vs. Player")
         print("2 --- Player vs. Computer")
         print("Q --- Quit")
